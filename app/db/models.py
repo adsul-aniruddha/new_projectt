@@ -2,6 +2,8 @@ from sqlalchemy import Column, Integer, String, Text, DateTime
 from datetime import datetime
 from app.db.database import Base
 
+
+# 🔥 USER
 class User(Base):
     __tablename__ = "users"
 
@@ -9,6 +11,8 @@ class User(Base):
     email = Column(String, unique=True, index=True)
     password = Column(String)
 
+
+# 🔥 REQUEST
 class Request(Base):
     __tablename__ = "requests"
 
@@ -21,12 +25,16 @@ class Request(Base):
     created_at = Column(DateTime, default=datetime.utcnow)
 
 
+# 🔥 WEBSITE (ONLY ONE CLASS)
 class Website(Base):
     __tablename__ = "websites"
 
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, index=True)
     name = Column(String)
-    html = Column(Text)
-    request_id = Column(Integer)
-    user_id = Column(Integer)
-    password = Column(String)
+    email = Column(String)
+    domain = Column(String)
+    business_type = Column(String)
+    description = Column(Text)
+    color = Column(String)
+    template = Column(String)
+    views = Column(Integer, default=0)

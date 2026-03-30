@@ -14,17 +14,17 @@ class _CreateScreenState extends State<CreateScreen> {
   TextEditingController desc = TextEditingController();
   TextEditingController color = TextEditingController();
 
-  String selectedTemplate = "Modern";
+  String template = "Modern";
 
   void create(String token) async {
-    var res = await ApiService.createRequest(token, {
+    var res = await ApiService.createWebsite(token, {
       "name": name.text,
       "email": email.text,
       "domain": domain.text,
       "business_type": type.text,
       "description": desc.text,
       "color": color.text,
-      "template": selectedTemplate,
+      "template": template,
     });
 
     Navigator.pushNamed(context, "/preview", arguments: res["id"]);
@@ -39,8 +39,6 @@ class _CreateScreenState extends State<CreateScreen> {
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [Color(0xFF0F2027), Color(0xFF203A43), Color(0xFF2C5364)],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
           ),
         ),
         child: SafeArea(
@@ -62,20 +60,18 @@ class _CreateScreenState extends State<CreateScreen> {
 
                 SizedBox(height: 20),
 
-                _input(name, "Your Name", Icons.person),
+                _input(name, "Name", Icons.person),
                 _input(email, "Email", Icons.email),
-                _input(domain, "Domain (example.com)", Icons.language),
+                _input(domain, "Domain", Icons.language),
                 _input(type, "Business Type", Icons.business),
                 _input(desc, "Description", Icons.description),
-                _input(color, "Theme Color (e.g. blue)", Icons.color_lens),
+                _input(color, "Theme Color", Icons.color_lens),
 
-                SizedBox(height: 25),
+                SizedBox(height: 20),
 
-                // 🔥 Template Selection
-                Text(
-                  "Choose Template",
-                  style: TextStyle(color: Colors.white, fontSize: 18),
-                ),
+                // 🔥 TEMPLATE SELECT
+                Text("Choose Template",
+                    style: TextStyle(color: Colors.white, fontSize: 18)),
 
                 SizedBox(height: 10),
 
@@ -90,7 +86,7 @@ class _CreateScreenState extends State<CreateScreen> {
 
                 SizedBox(height: 30),
 
-                // 🚀 Generate Button
+                // 🔥 BUTTON
                 SizedBox(
                   width: double.infinity,
                   height: 50,
@@ -115,12 +111,12 @@ class _CreateScreenState extends State<CreateScreen> {
     );
   }
 
-  // 🔥 Input Field UI
-  Widget _input(TextEditingController controller, String label, IconData icon) {
+  // 🔥 INPUT FIELD
+  Widget _input(TextEditingController c, String label, IconData icon) {
     return Padding(
       padding: EdgeInsets.only(bottom: 15),
       child: TextField(
-        controller: controller,
+        controller: c,
         style: TextStyle(color: Colors.white),
         decoration: InputDecoration(
           prefixIcon: Icon(icon, color: Colors.white),
@@ -137,33 +133,28 @@ class _CreateScreenState extends State<CreateScreen> {
     );
   }
 
-  // 🔥 Template Card
-  Widget _templateCard(String name) {
-    bool selected = selectedTemplate == name;
+  // 🔥 TEMPLATE CARD
+  Widget _templateCard(String t) {
+    bool selected = template == t;
 
     return GestureDetector(
       onTap: () {
         setState(() {
-          selectedTemplate = name;
+          template = t;
         });
       },
       child: Container(
         width: 100,
         height: 100,
         decoration: BoxDecoration(
-          color: selected ? Colors.teal : Colors.white.withOpacity(0.1),
+          color: selected ? Colors.teal : Colors.white12,
           borderRadius: BorderRadius.circular(15),
-          border: Border.all(
-            color: selected ? Colors.tealAccent : Colors.white24,
-          ),
+          border: Border.all(color: Colors.white24),
         ),
         child: Center(
           child: Text(
-            name,
-            style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-            ),
+            t,
+            style: TextStyle(color: Colors.white),
           ),
         ),
       ),
